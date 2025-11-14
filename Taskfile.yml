@@ -1,0 +1,21 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  PACKAGE_DIR: src/claim_processing
+
+tasks:
+  clean:
+    cmds:
+      - uv run isort "{{.PACKAGE_DIR}}"
+      - uv run ruff check "{{.PACKAGE_DIR}}"
+      - uv run ruff format "{{.PACKAGE_DIR}}"
+
+  install:
+    cmds:
+      - uv sync
+
+  startup:
+    cmds:
+      - fastapi dev api.py
