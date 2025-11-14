@@ -1,5 +1,4 @@
-from typing import Literal
-
+from typing import Literal, List
 from pydantic import BaseModel
 
 
@@ -9,10 +8,26 @@ class Document(BaseModel):
     type: str
 
 
+class DocumentUpload(BaseModel):
+    file_name: str
+    document_bytes: bytes
+
+
+class ClaimRequest(BaseModel):
+    claim_id: int
+    description_text: str
+    supporting_documents: List[DocumentUpload]
+
+
+class UploadResponse(BaseModel):
+    status: int
+    message: str
+
+
 class Claim(BaseModel):
-    claim_id: str
+    claim_id: int
     description: Document
-    supporting_documents: list[Document]
+    supporting_documents: List[Document]
 
 
 class ClaimDecision(BaseModel):

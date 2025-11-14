@@ -3,9 +3,10 @@ from abc import ABC, abstractmethod
 from typing import Literal
 
 from openai import OpenAI
+from pydantic import ValidationError
 
 from claim_processing.constants import MODEL_API_KEY, MODEL_API_URL, MODEL_NAME
-from claim_processing.load import load_policy
+from claim_processing.utils.load import load_policy
 from claim_processing.prompts import CLAIM_PROMPT, SIMPLE_LLM_SYSTEM_PROMPT
 from claim_processing.pydantic_models import Claim, ClaimDecision
 

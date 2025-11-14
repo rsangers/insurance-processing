@@ -10,4 +10,5 @@ MODEL_NAME = "google/gemini-2.5-flash-lite"
 
 CLAIM_DIRECTORY = "assignment"
 POLICY_DIRECTORY = "assignment"
+RESULTS_DIRECTORY = os.path.join("results", "latest")
 FILES_TO_EXCLUDE = ["description.txt", "answer.json"]

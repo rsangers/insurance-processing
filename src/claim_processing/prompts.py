@@ -5,7 +5,7 @@ You will be given a claim (consisting of a description and supporting documents)
 and a policy. You will need to decide if the claim 
 is covered by the policy. 
 
-Your output should be a JSON object with the following fields:
+Your output should be a JSON object with exactly the following fields:
 - reasoning: a detailed explanation of your decision
 - decision: "APPROVE", "DENY", "UNCERTAIN"
 """
