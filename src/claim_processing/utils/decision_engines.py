@@ -5,9 +5,9 @@ from typing import Literal
 from openai import OpenAI
 
 from claim_processing.constants import MODEL_API_KEY, MODEL_API_URL, MODEL_NAME
-from claim_processing.load import load_policy
 from claim_processing.prompts import CLAIM_PROMPT, SIMPLE_LLM_SYSTEM_PROMPT
 from claim_processing.pydantic_models import Claim, ClaimDecision
+from claim_processing.utils.load import load_policy
 
 
 class DecisionEngine(ABC):
