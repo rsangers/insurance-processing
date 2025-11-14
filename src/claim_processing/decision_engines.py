@@ -37,7 +37,7 @@ class SimpleLLMDecisionEngine(DecisionEngine):
         )
 
     def decide_claim(self, claim: Claim) -> ClaimDecision:
-        response = self.client.chat.completions.create(
+        response = self.client.chat.completions.parse(
             model=self.model_name,
             messages=[
                 {"role": "system", "content": self.system_prompt},
