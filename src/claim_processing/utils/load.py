@@ -1,17 +1,26 @@
 import json
-from ntpath import isdir
 import os
-from typing import Dict, List
+from typing import Dict
 
 from fastapi import HTTPException
 
-from claim_processing.constants import CLAIM_DIRECTORY, FILES_TO_EXCLUDE, POLICY_DIRECTORY, RESULTS_DIRECTORY
+from claim_processing.constants import (
+    CLAIM_DIRECTORY,
+    FILES_TO_EXCLUDE,
+    POLICY_DIRECTORY,
+    RESULTS_DIRECTORY,
+)
 from claim_processing.pydantic_models import Claim, ClaimDecision, Document
 from claim_processing.utils.image_utils import extract_text_from_image
 
 
 def load_description(claim_directory: str):
-    with open(os.path.join(claim_directory, "description.txt"), "r", encoding="utf-8", errors="replace") as file:
+    with open(
+        os.path.join(claim_directory, "description.txt"),
+        "r",
+        encoding="utf-8",
+        errors="replace",
+    ) as file:
         return Document(name="description.txt", content=file.read(), type="description")
 
 
@@ -55,24 +64,37 @@ def load_policy():
 
 
 def load_claim_decision(claim_id: int) -> ClaimDecision:
-    claim_decision_file = os.path.join(RESULTS_DIRECTORY, f"claim {claim_id} decision.json")
+    claim_decision_file = os.path.join(
+        RESULTS_DIRECTORY, f"claim {claim_id} decision.json"
+    )
 
     if not os.path.exists(claim_decision_file):
-        raise HTTPException(status_code=404, detail="Claim decision is not available yet")
+        raise HTTPException(
+            status_code=404, detail="Claim decision is not available yet"
+        )
 
     with open(claim_decision_file, "r") as decision_file:
         decision = json.load(decision_file)
 
     return ClaimDecision(reasoning=decision["reasoning"], decision=decision["decision"])
 
-def load_all_decisions(results_dir: str = RESULTS_DIRECTORY) -> Dict[int, ClaimDecision]:
+
+def load_all_decisions(
+    results_dir: str = RESULTS_DIRECTORY,
+) -> Dict[int, ClaimDecision]:
     decisions = {}
     for decision_file_name in os.listdir(results_dir):
         if decision_file_name.endswith("decision.json"):
-            claim_id = int(decision_file_name.replace("claim ", "").replace(" decision.json", ""))
-            with open(os.path.join(results_dir, decision_file_name), "r") as decision_file:
+            claim_id = int(
+                decision_file_name.replace("claim ", "").replace(" decision.json", "")
+            )
+            with open(
+                os.path.join(results_dir, decision_file_name), "r"
+            ) as decision_file:
                 decision = json.load(decision_file)
-            decisions[claim_id] = ClaimDecision(reasoning=decision["reasoning"], decision=decision["decision"])
+            decisions[claim_id] = ClaimDecision(
+                reasoning=decision["reasoning"], decision=decision["decision"]
+            )
     return decisions
 
 
@@ -81,10 +103,14 @@ def load_all_answers() -> Dict[int, ClaimDecision]:
     for claim_dir in os.listdir(CLAIM_DIRECTORY):
         if claim_dir.startswith("claim"):
             claim_id = int(claim_dir.replace("claim ", ""))
-            with open(os.path.join(CLAIM_DIRECTORY, claim_dir, "answer.json"), "r") as answer_file:
+            with open(
+                os.path.join(CLAIM_DIRECTORY, claim_dir, "answer.json"), "r"
+            ) as answer_file:
                 answer = json.load(answer_file)
             if "explanation" not in answers.keys():
                 answer["explanation"] = "NA"
-            answers[claim_id] = ClaimDecision(reasoning=answer["explanation"], decision=answer["decision"])
+            answers[claim_id] = ClaimDecision(
+                reasoning=answer["explanation"], decision=answer["decision"]
+            )
 
     return answers
