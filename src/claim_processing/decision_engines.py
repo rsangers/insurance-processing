@@ -1,25 +1,30 @@
 import json
+from abc import ABC, abstractmethod
+from typing import Literal
+
+from openai import OpenAI
+
 from claim_processing.constants import MODEL_API_KEY, MODEL_API_URL, MODEL_NAME
+from claim_processing.load import load_policy
 from claim_processing.prompts import CLAIM_PROMPT, SIMPLE_LLM_SYSTEM_PROMPT
 from claim_processing.pydantic_models import Claim, ClaimDecision
-from typing import Literal
-from claim_processing.load import load_policy
-
-from abc import ABC, abstractmethod
-from openai import OpenAI
 
 
 class DecisionEngine(ABC):
     @abstractmethod
     def decide_claim(self, claim: Claim) -> ClaimDecision:
-        pass 
+        pass
+
 
 class DummyDecisionEngine(DecisionEngine):
     def __init__(self, decision: Literal["APPROVE", "DENY", "UNCERTAIN"]):
         self.decision = decision
 
     def decide_claim(self, claim: Claim) -> ClaimDecision:
-        return ClaimDecision(decision=self.decision, reasoning="Policy covers the claim")
+        return ClaimDecision(
+            decision=self.decision, reasoning="Policy covers the claim"
+        )
+
 
 class SimpleLLMDecisionEngine(DecisionEngine):
     def __init__(self):
@@ -36,16 +41,18 @@ class SimpleLLMDecisionEngine(DecisionEngine):
             model=self.model_name,
             messages=[
                 {"role": "system", "content": self.system_prompt},
-                {"role": "user", "content": CLAIM_PROMPT.format(
-                    claim_description=claim.description.content, 
-                    claim_supporting_documents=claim.supporting_documents, 
-                    policy=self.policy.content
-                )}
+                {
+                    "role": "user",
+                    "content": CLAIM_PROMPT.format(
+                        claim_description=claim.description.content,
+                        claim_supporting_documents=claim.supporting_documents,
+                        policy=self.policy.content,
+                    ),
+                },
             ],
             response_format=ClaimDecision,
         )
         response_json = json.loads(response.choices[0].message.content)
         return ClaimDecision(
-            decision=response_json["decision"], 
-            reasoning=response_json["reasoning"]
+            decision=response_json["decision"], reasoning=response_json["reasoning"]
         )
