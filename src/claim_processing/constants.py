@@ -10,3 +10,4 @@ MODEL_NAME = "google/gemini-2.5-flash-001"
 
 CLAIM_DIRECTORY = "assignment"
 POLICY_DIRECTORY = "assignment"
+FILES_TO_EXCLUDE = ["description.txt", "answer.json"]
