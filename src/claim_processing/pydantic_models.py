@@ -25,6 +25,11 @@ class UploadResponse(BaseModel):
     message: str
 
 
+class AuthenticityResponse(BaseModel):
+    reasoning: str
+    authenticity_score: int
+
+
 class Claim(BaseModel):
     claim_id: int
     description: Document

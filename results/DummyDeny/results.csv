@@ -1,26 +1,26 @@
 ,claim_id,decision_true,decision_pred,reasoning_true,reasoning_pred
-0,1,DENY,DENY,NA,Policy covers the claim
-1,2,DENY,DENY,NA,Policy covers the claim
+0,1,DENY,DENY,medical document missing,Policy covers the claim
+1,2,DENY,DENY,"medical document missing, the missed the medical appointment is not covered",Policy covers the claim
 2,3,APPROVE,DENY,NA,Policy covers the claim
-3,4,DENY,DENY,NA,Policy covers the claim
+3,4,DENY,DENY,name is redacted,Policy covers the claim
 4,5,APPROVE,DENY,NA,Policy covers the claim
-5,6,UNCERTAIN,DENY,NA,Policy covers the claim
-6,7,DENY,DENY,NA,Policy covers the claim
-7,8,DENY,DENY,NA,Policy covers the claim
+5,6,UNCERTAIN,DENY,"the flight is in 2 weeks from now, it is not clear if the person will still be hospitalized or otherwise unable to fly",Policy covers the claim
+6,7,DENY,DENY,the document is generally suspicious: stamp with signature seems photoshopped onto a non-printed document. the document mentions that the person was 'discharged on' but does not have the date.,Policy covers the claim
+7,8,DENY,DENY,the medical document is in text form. this MUST be denied.,Policy covers the claim
 8,9,APPROVE,DENY,NA,Policy covers the claim
-9,10,DENY,DENY,NA,Policy covers the claim
+9,10,DENY,DENY,the medical certificate states the person is healthy,Policy covers the claim
 10,11,APPROVE,DENY,NA,Policy covers the claim
 11,12,APPROVE,DENY,NA,Policy covers the claim
-12,13,UNCERTAIN,DENY,NA,Policy covers the claim
-13,14,DENY,DENY,NA,Policy covers the claim
-14,15,DENY,DENY,NA,Policy covers the claim
+12,13,UNCERTAIN,DENY,suspicious dating on the document (17/11/2023 stamp),Policy covers the claim
+13,14,DENY,DENY,medical document states the patient is healthy,Policy covers the claim
+14,15,DENY,DENY,the name is obscured in the medical document and visible initials do not correspond,Policy covers the claim
 15,16,APPROVE,DENY,NA,Policy covers the claim
-16,17,DENY,DENY,NA,Policy covers the claim
-17,18,DENY,DENY,NA,Policy covers the claim
+16,17,DENY,DENY,"documentation states the claimant is in good condition, lacks a signature",Policy covers the claim
+17,18,DENY,DENY,a picture is attached instead of the medical certificate,Policy covers the claim
 18,19,APPROVE,DENY,NA,Policy covers the claim
-19,20,UNCERTAIN,DENY,NA,Policy covers the claim
-20,21,DENY,DENY,NA,Policy covers the claim
-21,22,DENY,DENY,NA,Policy covers the claim
-22,23,UNCERTAIN,DENY,NA,Policy covers the claim
-23,24,UNCERTAIN,DENY,NA,Policy covers the claim
-24,25,DENY,DENY,NA,Policy covers the claim
+19,20,UNCERTAIN,DENY,no signature on the medical certificate,Policy covers the claim
+20,21,DENY,DENY,no supporting documentation provided,Policy covers the claim
+21,22,DENY,DENY,the medical certificate states the person is healthy,Policy covers the claim
+22,23,UNCERTAIN,DENY,the document has weird dating (2016 in the bottom),Policy covers the claim
+23,24,UNCERTAIN,DENY,minor date problem - appointment is 3 days after the flight,Policy covers the claim
+24,25,DENY,DENY,medical document missing,Policy covers the claim

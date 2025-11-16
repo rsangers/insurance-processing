@@ -5,7 +5,7 @@ from typing import Literal
 from openai import OpenAI
 
 from claim_processing.constants import MODEL_API_KEY, MODEL_API_URL, MODEL_NAME
-from claim_processing.prompts import CLAIM_PROMPT, SIMPLE_LLM_SYSTEM_PROMPT
+from claim_processing.prompts import ADVANCED_LLM_SYSTEM_PROMPT, CLAIM_PROMPT
 from claim_processing.pydantic_models import Claim, ClaimDecision
 from claim_processing.utils.load import load_policy
 
@@ -29,7 +29,8 @@ class DummyDecisionEngine(DecisionEngine):
 class SimpleLLMDecisionEngine(DecisionEngine):
     def __init__(self):
         self.policy = load_policy()
-        self.system_prompt = SIMPLE_LLM_SYSTEM_PROMPT
+        # self.system_prompt = SIMPLE_LLM_SYSTEM_PROMPT
+        self.system_prompt = ADVANCED_LLM_SYSTEM_PROMPT
         self.model_name = MODEL_NAME
         self.client = OpenAI(
             base_url=MODEL_API_URL,

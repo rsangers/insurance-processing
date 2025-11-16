@@ -6,7 +6,14 @@ load_dotenv()
 
 MODEL_API_KEY = os.getenv("OPENROUTER_API_KEY")
 MODEL_API_URL = "https://openrouter.ai/api/v1"
-MODEL_NAME = "google/gemini-2.5-flash-lite"
+# MODEL_NAME = "google/gemini-2.5-flash"
+MODEL_NAME = "google/gemini-2.5-pro"
+AUTHENTICITY_MODEL_NAME = "openai/gpt-5-image-mini"
+OCR_MODEL_NAME = "qwen/qwen2.5-vl-72b-instruct"
+
+CHECK_AUTHENTICITY = True
+USE_OCR = True
+AUTHENTICITY_THRESHOLD = 2  # Scores greater or equal to this are determined authentic
 
 CLAIM_DIRECTORY = "assignment"
 POLICY_DIRECTORY = "assignment"
