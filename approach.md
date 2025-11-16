@@ -32,6 +32,7 @@ Divide complex tasks into smaller, simpler tasks that can be optimized individua
 You can not optimize without evaluating. By focussing on evaluation from the start, you skip the 'eye-balling' stage (which does not scale), and instead have quantifiable metrics from the start that allow you to test your changes. Preferably, you should also not only evaluate final outputs, but also evaluate and optimize individual components. For example, acquire ground-truth data to evaluate the document-authenticity check and optimize it individually. Using MLFlow, we can then track different versions (e.g. different prompts, models or parameters) and chose the best.
 
 ## Future improvements
+### Approach improvements
 Although the current accuracy (72%) is already a good improvement compared to the baseline, there are still many things to improve. In future improvements, I would focus on the following:
 - Dividing the decision step into smaller components
 Instead of using one LLM agent to decide the approval of all the claims, it would be beneficial to create specialized claim agents for the different claim types. For example, a claim about a medical accident has different requirements than a claim about delays. By creating specialized agents for the different claim types, and adding a classification step to route claims to the right agents, you create more focussed agents and can optimize for different claim types.
@@ -44,3 +45,9 @@ In line with the 'Evaluation is key' principle highlighted above, preferably you
 
 - Automatic feedback and optimization
 By adding a feedback agent that compares our predicted decisions with the actual answers, we can create an automatic feedback and optimization loop that can give us suggestions on things to improve to our pipeline. For example, it can give us hints for the type of cases that often go wrong, or give suggestions on how to change the prompt such that our pipeline would perform better.
+
+### Infrastructure improvements
+- Dockerizing the application components
+To allow reproducability and deployment of this solution in Cloud environments, I would recommend to dockerize the components, such as the API and the claim processing pipeline. Moreover, to sustain the claim data and decisions, a database can be set up which can be used to read/write data.
+- Frontend for uploading claims and inspecting decisions
+To make it easier for customers to upload claims and inspect claim decisions, it would be beneficial to have a user-interface instead of interacting with the API directly. This UI could consist of various tabs, e.g. a tab with an upload window where users can create claims and add supporting documents, and a tab where users can inspect their claims and the claim decisions.
