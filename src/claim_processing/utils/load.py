@@ -1,4 +1,6 @@
+import base64
 import json
+import logging
 import os
 from typing import Dict
 
@@ -11,7 +13,8 @@ from claim_processing.constants import (
     RESULTS_DIRECTORY,
 )
 from claim_processing.pydantic_models import Claim, ClaimDecision, Document
-from claim_processing.utils.image_utils import extract_text_from_image
+
+logger = logging.getLogger()
 
 
 def load_description(claim_directory: str):
@@ -34,14 +37,21 @@ def load_supporting_documents(claim_directory: str):
             with open(file_path, "r", encoding="utf-8", errors="replace") as file:
                 supporting_documents.append(
                     Document(
-                        name=file_name, content=file.read(), type="supporting document"
+                        name=file_name,
+                        content=file.read(),
+                        type="text supporting document",
                     )
                 )
         elif file_name.endswith((".png", ".jpg", ".jpeg", ".webp")):
-            text = extract_text_from_image(file_path)
-            supporting_documents.append(
-                Document(name=file_name, content=text, type="supporting document")
-            )
+            with open(file_path, "rb") as file:
+                file_bytestring = base64.b64encode(file.read()).decode("utf-8")
+                supporting_documents.append(
+                    Document(
+                        name=file_name,
+                        content=file_bytestring,
+                        type="image supporting document",
+                    )
+                )
         else:
             raise ValueError(f"Unsupported file type: {file_name}")
     return supporting_documents
@@ -88,10 +98,15 @@ def load_all_decisions(
             claim_id = int(
                 decision_file_name.replace("claim ", "").replace(" decision.json", "")
             )
-            with open(
-                os.path.join(results_dir, decision_file_name), "r"
-            ) as decision_file:
-                decision = json.load(decision_file)
+            try:
+                with open(
+                    os.path.join(results_dir, decision_file_name), "r"
+                ) as decision_file:
+                    decision = json.load(decision_file)
+            except Exception:
+                logger.warning(
+                    f"Exception when loading results file {decision_file_name}. Skipping..."
+                )
             decisions[claim_id] = ClaimDecision(
                 reasoning=decision["reasoning"], decision=decision["decision"]
             )
@@ -107,7 +122,7 @@ def load_all_answers() -> Dict[int, ClaimDecision]:
                 os.path.join(CLAIM_DIRECTORY, claim_dir, "answer.json"), "r"
             ) as answer_file:
                 answer = json.load(answer_file)
-            if "explanation" not in answers.keys():
+            if "explanation" not in answer.keys():
                 answer["explanation"] = "NA"
             answers[claim_id] = ClaimDecision(
                 reasoning=answer["explanation"], decision=answer["decision"]

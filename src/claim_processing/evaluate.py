@@ -1,11 +1,18 @@
 import json
+import logging
 import os
 
+import mlflow
 import pandas as pd
 
 from claim_processing.process import process_and_upload_all_claims
-from claim_processing.utils.decision_engines import SimpleLLMDecisionEngine
+from claim_processing.utils.decision_engines import (
+    DummyDecisionEngine,
+    SimpleLLMDecisionEngine,
+)
 from claim_processing.utils.load import load_all_answers, load_all_decisions
+
+logger = logging.getLogger()
 
 
 def evaluate_decisions(results_dir: str):
@@ -48,11 +55,37 @@ def evaluate_decisions(results_dir: str):
 
 
 if __name__ == "__main__":
-    # decision_engine = DummyDecisionEngine(decision='DENY')
-    decision_engine = SimpleLLMDecisionEngine()
-    results_dir = os.path.join("results", "SimpleLLM")
+    mlflow.openai.autolog()
 
+    decision_model = "SimpleLLM"
+    check_authenticity = True
+    use_ocr = True
+
+    if decision_model == "SimpleLLM":
+        decision_engine = SimpleLLMDecisionEngine()
+        config_name = "SimpleLLM"
+        if check_authenticity:
+            config_name += "Auth"
+        if use_ocr:
+            config_name += "OCR"
+        config_name += "ProImproved"
+    elif decision_model == "DummyDeny":
+        decision_engine = DummyDecisionEngine(decision="DENY")
+        check_authenticity = False  # No effect to check authenticity for dummy
+        use_ocr = False  # No effect to use ocr for dummy
+        config_name = "DummyDeny"
+    else:
+        raise Exception(f"Model not supported: {decision_model}")
+
+    logger.info(
+        f"Using configuration:\nModel: {decision_model}\nCheck authenticity: {check_authenticity}\nUse OCR: {use_ocr}"
+    )
+
+    results_dir = os.path.join("results", config_name)
     process_and_upload_all_claims(
-        decision_engine=decision_engine, results_dir=results_dir
+        decision_engine=decision_engine,
+        results_dir=results_dir,
+        check_authenticity=check_authenticity,
+        use_ocr=use_ocr,
     )
     evaluate_decisions(results_dir)
