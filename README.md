@@ -13,6 +13,8 @@ This system processes insurance claims by:
 - Making coverage decisions (APPROVE/DENY/UNCERTAIN) based on policy rules
 - Providing detailed reasoning for each decision
 
+**This repository does not include the assignment data, please upload this yourself (step 4 of setup)**
+
 ## Features
 
 - **Multi-format Document Processing**: Handles both text documents and images (PNG, JPG, WEBP)
@@ -51,12 +53,14 @@ Create a `.env` file in the root directory:
 OPENROUTER_API_KEY=your_openrouter_api_key_here
 ```
 
-4. Verify installation:
+4. Add assignment folder with claim data and policy to `assignment` folder
+
+5. Verify installation:
 ```bash
 fastapi dev api.py
 ```
 
-5. Testing the API
+6. Testing the API
 ```bash
 uv run test_api.py
 ```
