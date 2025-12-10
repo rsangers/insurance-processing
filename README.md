@@ -1,6 +1,6 @@
 # Insurance Claim Processing Pipeline
 
-**Note: an explanation about my approach and future directions can be found in `approach.md`**
+**Note: an explanation about my approach for creating this repository (including future directions) can be found in `approach.md`**
 
 An intelligent insurance claim processing system that analyzes claims with supporting documents and makes automated coverage decisions using Large Language Models (LLMs) and vision models.
 
