@@ -53,15 +53,17 @@ Create a `.env` file in the root directory:
 OPENROUTER_API_KEY=your_openrouter_api_key_here
 ```
 
-4. Add folder with claim data and policy that describes criteria on which claims should be judged. The data folder is expected to have the following structure: ```
-├── your_data_dir/                     # Benchmark dataset
+4. Add folder with claim data and policy that describes criteria on which claims should be judged. The data folder is expected to have the following structure:
+
+```
+├── data/                     # Benchmark dataset
 │   ├── policy.md                  # Policy document describing the requirements for making claim decisions
 │   ├── claim 1/                   # Individual claim directories
 │   │   ├── description.txt
 │   │   ├── answer.json            # Expected decision
     │   └── supporting documents
     └── ...
-``` 
+```
 
 6. Verify installation:
 ```bash
