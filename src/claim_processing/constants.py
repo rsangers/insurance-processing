@@ -15,7 +15,7 @@ CHECK_AUTHENTICITY = True
 USE_OCR = True
 AUTHENTICITY_THRESHOLD = 2  # Scores greater or equal to this are determined authentic
 
-CLAIM_DIRECTORY = "assignment"
-POLICY_DIRECTORY = "assignment"
+CLAIM_DIRECTORY = "data"
+POLICY_DIRECTORY = "data"
 RESULTS_DIRECTORY = os.path.join("results", "latest")
 FILES_TO_EXCLUDE = ["description.txt", "answer.json"]
