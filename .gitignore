@@ -13,7 +13,7 @@ wheels/
 .env
 
 # Data
-assignment/
+data/
 
 # MLFlow
 mlruns/
