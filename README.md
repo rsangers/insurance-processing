@@ -13,7 +13,7 @@ This system processes insurance claims by:
 - Making coverage decisions (APPROVE/DENY/UNCERTAIN) based on policy rules
 - Providing detailed reasoning for each decision
 
-**This repository does not include the assignment data, please upload this yourself (step 4 of setup)**
+**This repository does not include any data, please upload this yourself (step 4 of setup)**
 
 ## Features
 
@@ -53,9 +53,17 @@ Create a `.env` file in the root directory:
 OPENROUTER_API_KEY=your_openrouter_api_key_here
 ```
 
-4. Add assignment folder with claim data and policy to `assignment` folder
+4. Add folder with claim data and policy that describes criteria on which claims should be judged. The data folder is expected to have the following structure: ```
+├── your_data_dir/                     # Benchmark dataset
+│   ├── policy.md                  # Policy document describing the requirements for making claim decisions
+│   ├── claim 1/                   # Individual claim directories
+│   │   ├── description.txt
+│   │   ├── answer.json            # Expected decision
+    │   └── supporting documents
+    └── ...
+``` 
 
-5. Verify installation:
+6. Verify installation:
 ```bash
 fastapi dev api.py
 ```
@@ -261,13 +269,6 @@ insurance_processing/
 │           ├── image_utils.py      # Image processing utilities
 │           ├── load.py             # Data loading utilities
 │           └── openai_utils.py     # OpenAI API utilities
-├── assignment/                     # Benchmark dataset
-│   ├── policy.md                  # Insurance policy document
-│   ├── claim 1/                   # Individual claim directories
-│   │   ├── description.txt
-│   │   ├── answer.json            # Expected decision
-│   │   └── supporting documents
-│   └── ...
 ├── results/                        # Processing results
 │   ├── SimpleLLM/                 # Results by configuration
 │   ├── SimpleLLMAuth/
