@@ -181,7 +181,7 @@ The claim processing pipeline follows a multi-stage workflow:
 
 ### Stage 1: Claim Submission
 When a claim is submitted via the API:
-1. Claim data is stored in the `assignment/claim {id}/` directory
+1. Claim data is stored in the `data/claim {id}/` directory
 2. Description text is saved to `description.txt`
 3. Supporting documents are saved with their original filenames
 
@@ -199,7 +199,7 @@ If enabled (`CHECK_AUTHENTICITY=True`):
    - If OCR is disabled: Placeholder text is used
 
 ### Stage 4: Policy Analysis
-1. The insurance policy is loaded from `assignment/policy.md`
+1. The insurance policy is loaded from `data/policy.md`
 2. Claim description and processed documents are combined
 3. The decision engine analyzes the claim against policy rules
 
@@ -234,14 +234,14 @@ API documentation (Swagger UI) is available at `http://localhost:8000/docs`
 
 ### Process All Claims
 
-To process all claims in the assignment directory and evaluate results:
+To process all claims in the data directory and evaluate results:
 
 ```bash
 uv run python -m claim_processing.evaluate
 ```
 
 This will:
-1. Process all 25 claims in the benchmark dataset
+1. Process all claims in the dataset
 2. Compare decisions against expected answers
 3. Generate accuracy metrics
 4. Save results to `results/{config_name}/`
@@ -371,20 +371,18 @@ class MyCustomEngine(DecisionEngine):
 
 ## Benchmark Dataset
 
-The repository includes a benchmark dataset with 25 insurance claims:
+The repository results were generated using a benchmark dataset with 25 insurance claims:
 
 - **9 APPROVE claims** (31%)
 - **15 DENY claims** (52%)
 - **5 UNCERTAIN claim** (17%)
 
-Claim types include:
+Claim types included:
 - Medical emergencies and hospitalizations
 - Travel disruptions (flights, trains)
 - Legal obligations (jury duty, court appearances)
 - Theft and loss incidents
 - Accidents
-
-See `assignment/README.md` for detailed dataset information.
 
 ## Dependencies
 
